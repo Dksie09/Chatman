@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
@@ -8,13 +9,27 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)"],
+      },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "custom-bg": "url('/wallpaper.jpeg')",
+      },
+      textShadow: {
+        "outline-black": "2px 2px 0 #000",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addUtilities }: any) {
+      const newUtilities = {
+        ".text-outline-black": {
+          textShadow:
+            "2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000",
+        },
+      };
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    }),
+  ],
 };
 export default config;
